@@ -1,0 +1,24 @@
+.swiper-pagination {
+    display: none !important;
+}
+
+.shorts {
+    .plyr__controls {
+        margin-bottom: 10px;
+
+        .plyr__progress {
+            min-width: 100%;
+            position: absolute;
+            bottom: -28px;
+            left: 0;
+            padding: 0 16px;
+        }
+
+        .plyr__volume {
+            // min-width: 100%;
+            position: fixed !important;
+            top: 0;
+            right: 20px;
+        }
+    }
+}

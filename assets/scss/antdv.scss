@@ -1,0 +1,219 @@
+@import "./colors.scss";
+
+.ant-tabs-content-holder {
+  overflow: hidden;
+
+  .ant-tabs-tabpane {
+    visibility: visible !important;
+    overflow: visible !important;
+    // height: auto !important;
+  }
+}
+
+.ant-tabs-nav-list {
+  max-width: fit-content;
+}
+
+.ant-tabs-tab {
+  user-select: none;
+  color: color(c24);
+  padding: 0 0 8px 0 !important;
+}
+
+.ant-tabs-tab-active .ant-tabs-tab-btn {
+  color: color(main) !important;
+}
+
+.ant-tabs-ink-bar,
+.ant-tabs-nav::before {
+  background: color(main) !important;
+  border-radius: 2px !important;
+}
+
+.ant-tabs-nav-more {
+  display: none !important;
+}
+
+.ant-tabs-nav-wrap::after,
+.ant-tabs-nav-wrap::before {
+  display: none !important;
+}
+
+.ant-progress-text {
+  display: none !important;
+}
+
+.ant-progress-line {
+  margin: 0 !important;
+}
+
+.ant-progress-outer {
+  padding: 0 !important;
+}
+
+.lesson_tab .ant-tabs-nav {
+  position: sticky !important;
+  top: 108px !important;
+  z-index: 20;
+  background: white;
+  padding-top: 20px;
+}
+
+.ant-select-dropdown {
+  min-width: fit-content !important;
+}
+
+// .ant-tabs-content-holder {
+//   // overflow: visible !important;
+//   // overflow-x: hidden !important;
+// }
+
+.modal {
+  .ant-btn {
+    border-radius: 10px;
+    height: 40px;
+    font-weight: 600;
+  }
+
+  .ant-btn-primary {
+    background: #ff852e;
+  }
+
+  .ant-btn-default {
+    border-radius: #bbbbbb;
+    color: #242424;
+  }
+
+  .ant-modal-close {
+    margin-top: 5px !important;
+  }
+
+  .ant-modal-close-x {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    svg {
+      width: 24px;
+      height: 24px;
+      padding: 5px;
+    }
+  }
+}
+
+.ant-modal-title {
+  font-size: 20px !important;
+  font-weight: 500 !important;
+}
+
+.ant-select-selector {
+  height: 50px;
+  display: flex !important;
+  align-items: center !important;
+
+  input {
+    height: 48px !important;
+    padding: 12px !important;
+  }
+
+  // inset-inline: 0 !important;
+  // inset-inline: 0px !important;
+  * {
+    inset-inline: 0px !important;
+  }
+}
+
+.ant-drawer-left,
+.ant-drawer-right {
+  .ant-drawer-content-wrapper {
+    width: max-content !important;
+    border-radius: 0px 20px 20px 0px;
+    overflow: hidden;
+  }
+}
+
+.ant-drawer-right .ant-drawer-content-wrapper {
+  width: max-content !important;
+  border-radius: 20px 0px 0px 20px !important;
+}
+
+
+.ant-drawer-bottom .ant-drawer-content-wrapper {
+  border-radius: 20px 20px 0px 0 !important;
+  overflow: hidden;
+}
+
+.full-modal {
+  .ant-modal {
+    max-width: 100%;
+    top: 0;
+    padding-bottom: 0;
+    margin: 0;
+  }
+
+  .ant-modal-content {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh);
+  }
+
+  .ant-modal-body {
+    flex: 1;
+  }
+}
+
+.ant-picker {
+  padding-top: 0px;
+  padding-bottom: 0px;
+  padding-left: 0px;
+}
+
+.qdropdown {
+  .ant-dropdown {
+    position: relative !important;
+  }
+}
+
+.full-modal .ant-modal-content {
+  height: auto;
+  min-height: 100dvh;
+}
+
+
+
+
+
+// responsive
+
+@media (max-width: 768px) {
+  .lesson_tab .ant-tabs-nav {
+    top: 100px !important;
+    background: color(bg);
+  }
+}
+
+.ant-drawer-body {
+  padding-bottom: 0px !important;
+}
+
+.ant-select-multiple .ant-select-selection-overflow-item {
+  height: 50px !important;
+}
+
+.ant-select-selection-overflow-item {
+  .ant-select-selection-item-remove {
+    height: 25px !important;
+  }
+}
+
+.ant-select-multiple .ant-select-selection-placeholder {
+  padding: 0 12px !important;
+}
+
+.ant-picker-suffix {
+  padding-right: 12px !important;
+}
+
+.ant-drawer-right .ant-drawer-content-wrapper {
+  width: auto !important;
+} 
