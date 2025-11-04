@@ -40,8 +40,10 @@
         </section>
 
         <section id="quiz-grid" class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-6">
-
-            <div v-for="i in useLessons.store.lessons" id="quiz-card-1"
+            <template v-if="isLoading.isLoadingType('getLesson')" class="space-y-1 mt-5">
+                <LoadingDiv v-for="i in 6" class="h-[282px] w-full" />
+            </template>
+            <div v-else-if="useLessons.store.lessons?.length" v-for="i in useLessons.store.lessons" id="quiz-card-1"
                 class="quiz-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
                 <div class="flex items-start justify-between mb-4">
                     <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center">
@@ -116,76 +118,18 @@
                 </router-link>
                 <router-link v-else :to="`/test/${i.id}`">
                     <button class="full_flex w-full bg-gray-300 text-gray-600 py-3 rounded-lg font-semibold">
-                    <i class="mr-2" data-fa-i2svg=""><svg width="20" class="svg-inline--fa fa-pen-to-square"
-                            aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square" role="img"
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                            <path fill="currentColor"
-                                d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z">
-                            </path>
-                        </svg></i>Complete Setup
-                </button>
-                </router-link>
-            </div>
-
-            <div id="quiz-card-5"
-                class="quiz-card bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-lg transition-all duration-300">
-                <div class="flex items-start justify-between mb-4">
-                    <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center">
-                        <i class="text-indigo-600 text-xl" data-fa-i2svg=""><svg width="20"
-                                class="svg-inline--fa fa-book" aria-hidden="true" focusable="false" data-prefix="fas"
-                                data-icon="book" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
-                                data-fa-i2svg="">
-                                <path fill="currentColor"
-                                    d="M96 0C43 0 0 43 0 96V416c0 53 43 96 96 96H384h32c17.7 0 32-14.3 32-32s-14.3-32-32-32V384c17.7 0 32-14.3 32-32V32c0-17.7-14.3-32-32-32H384 96zm0 384H352v64H96c-17.7 0-32-14.3-32-32s14.3-32 32-32zm32-240c0-8.8 7.2-16 16-16H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16zm16 48H336c8.8 0 16 7.2 16 16s-7.2 16-16 16H144c-8.8 0-16-7.2-16-16s7.2-16 16-16z">
-                                </path>
-                            </svg></i>
-                    </div>
-                    <span
-                        class="bg-yellow-100 text-yellow-800 text-xs font-medium px-2 py-1 rounded-full">Unfinished</span>
-                </div>
-                <h3 class="text-lg font-semibold text-gray-900 mb-2">World Geography</h3>
-                <p class="text-gray-600 text-sm mb-4">Countries, capitals, and major landmarks</p>
-                <div class="flex items-center justify-between text-sm text-gray-500 mb-6">
-                    <div class="flex items-center">
-                        <i class="mr-1" data-fa-i2svg=""><svg width="20" class="svg-inline--fa fa-circle-question"
-                                aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle-question"
+                        <i class="mr-2" data-fa-i2svg=""><svg width="20" class="svg-inline--fa fa-pen-to-square"
+                                aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square"
                                 role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
                                 <path fill="currentColor"
-                                    d="M256 512A256 256 0 1 0 256 0a256 256 0 1 0 0 512zM169.8 165.3c7.9-22.3 29.1-37.3 52.8-37.3h58.3c34.9 0 63.1 28.3 63.1 63.1c0 22.6-12.1 43.5-31.7 54.8L280 264.4c-.2 13-10.9 23.6-24 23.6c-13.3 0-24-10.7-24-24V250.5c0-8.6 4.6-16.5 12.1-20.8l44.3-25.4c4.7-2.7 7.6-7.7 7.6-13.1c0-8.4-6.8-15.1-15.1-15.1H222.6c-3.4 0-6.4 2.1-7.5 5.3l-.4 1.2c-4.4 12.5-18.2 19-30.6 14.6s-19-18.2-14.6-30.6l.4-1.2zM224 352a32 32 0 1 1 64 0 32 32 0 1 1 -64 0z">
+                                    d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z">
                                 </path>
-                            </svg></i>
-                        <span>22 Questions</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="mr-1" data-fa-i2svg=""><svg width="20" class="svg-inline--fa fa-clock"
-                                aria-hidden="true" focusable="false" data-prefix="fas" data-icon="clock" role="img"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                <path fill="currentColor"
-                                    d="M256 0a256 256 0 1 1 0 512A256 256 0 1 1 256 0zM232 120V256c0 8 4 15.5 10.7 20l96 64c11 7.4 25.9 4.4 33.3-6.7s4.4-25.9-6.7-33.3L280 243.2V120c0-13.3-10.7-24-24-24s-24 10.7-24 24z">
-                                </path>
-                            </svg></i>
-                        <span>25 min</span>
-                    </div>
-                    <div class="flex items-center">
-                        <i class="mr-1" data-fa-i2svg=""><svg width="20" class="svg-inline--fa fa-users"
-                                aria-hidden="true" focusable="false" data-prefix="fas" data-icon="users" role="img"
-                                xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" data-fa-i2svg="">
-                                <path fill="currentColor"
-                                    d="M144 0a80 80 0 1 1 0 160A80 80 0 1 1 144 0zM512 0a80 80 0 1 1 0 160A80 80 0 1 1 512 0zM0 298.7C0 239.8 47.8 192 106.7 192h42.7c15.9 0 31 3.5 44.6 9.7c-1.3 7.2-1.9 14.7-1.9 22.3c0 38.2 16.8 72.5 43.3 96c-.2 0-.4 0-.7 0H21.3C9.6 320 0 310.4 0 298.7zM405.3 320c-.2 0-.4 0-.7 0c26.6-23.5 43.3-57.8 43.3-96c0-7.6-.7-15-1.9-22.3c13.6-6.3 28.7-9.7 44.6-9.7h42.7C592.2 192 640 239.8 640 298.7c0 11.8-9.6 21.3-21.3 21.3H405.3zM224 224a96 96 0 1 1 192 0 96 96 0 1 1 -192 0zM128 485.3C128 411.7 187.7 352 261.3 352H378.7C452.3 352 512 411.7 512 485.3c0 14.7-11.9 26.7-26.7 26.7H154.7c-14.7 0-26.7-11.9-26.7-26.7z">
-                                </path>
-                            </svg></i>
-                        <span>0/45</span>
-                    </div>
-                </div>
-                <button class="full_flex w-full bg-gray-300 text-gray-600 py-3 rounded-lg font-semibold">
-                    <i class="mr-2" data-fa-i2svg=""><svg width="20" class="svg-inline--fa fa-pen-to-square"
-                            aria-hidden="true" focusable="false" data-prefix="fas" data-icon="pen-to-square" role="img"
-                            xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                            <path fill="currentColor"
-                                d="M471.6 21.7c-21.9-21.9-57.3-21.9-79.2 0L362.3 51.7l97.9 97.9 30.1-30.1c21.9-21.9 21.9-57.3 0-79.2L471.6 21.7zm-299.2 220c-6.1 6.1-10.8 13.6-13.5 21.9l-29.6 88.8c-2.9 8.6-.6 18.1 5.8 24.6s15.9 8.7 24.6 5.8l88.8-29.6c8.2-2.7 15.7-7.4 21.9-13.5L437.7 172.3 339.7 74.3 172.4 241.7zM96 64C43 64 0 107 0 160V416c0 53 43 96 96 96H352c53 0 96-43 96-96V320c0-17.7-14.3-32-32-32s-32 14.3-32 32v96c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V160c0-17.7 14.3-32 32-32h96c17.7 0 32-14.3 32-32s-14.3-32-32-32H96z">
-                            </path>
-                        </svg></i>Complete Setup
-                </button>
+                            </svg></i>Complete Setup
+                    </button>
+                </router-link>
+            </div>
+            <div v-else class="full_flex p-20 col-span-4 text-lg">
+                No data
             </div>
         </section>
 
