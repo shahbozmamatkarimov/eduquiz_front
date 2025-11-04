@@ -277,7 +277,7 @@ export const useAuthStore = defineStore("auth", () => {
       .then((res: any) => {
         localStorage.setItem("token", res.data.token);
         if (res.data.statusCode == 200) {
-          router.push("/settings");
+          router.push("/");
         }
       })
       .catch((err: any) => {
