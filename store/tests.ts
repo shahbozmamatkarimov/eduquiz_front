@@ -131,6 +131,9 @@ export const useTestsStore = defineStore("tests", () => {
       })
       .catch((err) => {
         console.log(err);
+        for (let i of err.response.data.message) {
+          openNotification('error', i, '');
+        }
       });
   }
 
