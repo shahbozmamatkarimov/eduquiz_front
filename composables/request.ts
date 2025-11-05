@@ -25,7 +25,7 @@ export const useApiRequest = () => {
       isLoading.addLoading(loadingType);
       console.log(isLoading.store.loadingTypes);
       url = endPoint + url;
-      return new Promise(function (resolve) {
+      return new Promise(function (resolve, reject) {
         axios
           .get(url, { headers })
           .then((res) => {
@@ -40,7 +40,7 @@ export const useApiRequest = () => {
             // if (err.response?.status == 401) {
             //   isLoading.store.isLogin = false;
             // }
-            resolve(err);
+            reject(err);
           });
       });
     }

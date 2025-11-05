@@ -5,7 +5,7 @@
                 <img loading="lazy"  class="pcursor" src="@/assets/svg/icon/back_route.svg" alt="" />
                 <span>Orqaga</span>
             </router-link>
-            <li v-if="isLoading.store.isLogin && !store.is_sidebar" class="flex items-center gap-1 w-full">
+            <!-- <li v-if="isLoading.store.isLogin && !store.is_sidebar" class="flex items-center gap-1 w-full">
                 <div class="relative min-w-fit">
                     <div class="clip">
                         <div class="min-h-[53px] min-w-[53px] max-h-[53px] max-w-[53px]">
@@ -27,7 +27,7 @@
                     </li>
                 </ul>
                 <img loading="lazy"  class="" src="@/assets/svg/icon/arrow.svg" alt="" />
-            </li>
+            </li> -->
             <li v-if="$router.currentRoute.value.path.includes('my_groups')">
                 <router-link :to="i.url" v-for="i in group_sidebar" :key="i.id">
                     <div

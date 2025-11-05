@@ -14,8 +14,16 @@ import _lessons from "@/assets/svg/sidebar/lessons.svg";
 export const sidebar = [
   {
     id: 1,
-    name: "Asosiy",
-    url: "/",
+    name: "Profile",
+    url: "/profile",
+    svg: _lessons,
+    // svgActive: dashboardActive,
+    role: ["admin"],
+  },
+  {
+    id: 1,
+    name: "Boshqaruv",
+    url: "/manage",
     svg: _lessons,
     // svgActive: dashboardActive,
     role: ["admin"],
@@ -85,14 +93,14 @@ export const sidebar = [
   //   // svgActive: dashboardActive,
   //   role: [],
   // },
-  {
-    id: 1,
-    name: "Sozlamalar",
-    url: "/settings",
-    svg: _settings,
-    // svgActive: dashboardActive,
-    role: [],
-  },
+  // {
+  //   id: 1,
+  //   name: "Sozlamalar",
+  //   url: "/settings",
+  //   svg: _settings,
+  //   // svgActive: dashboardActive,
+  //   role: [],
+  // },
 ];
 
 export const group_sidebar = [

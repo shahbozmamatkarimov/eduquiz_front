@@ -1,166 +1,89 @@
 import { io } from "socket.io-client";
-import { useApiRequest } from "~/composables";
 import { useLoadingStore } from "./loading";
+import { useTestsStore } from "./tests";
+import { useApiRequest } from "~/composables";
+
 
 export const useChatStore = defineStore("chat", () => {
-    const apiRequest = useApiRequest();
     const isLoading = useLoadingStore();
+    const useTests = useTestsStore();
     const router = useRouter();
+      const apiRequest = useApiRequest();
+    
     // const endPoint: string = isLoading.checkCurrentUrl();
-    console.log(isLoading.store.baseUrl.slice(0, -5));
+    const store: any = reactive({
+        userlist: [],
+        userScreen: 'enter-code',
+        countdown: 60,
+        trueAnswer: {
+            variant: null,
+            countdown: null,
+        },
+    });
 
     let socket: any;
     if (process.client) {
+        console.log(isLoading.store.baseUrl.slice(0, -5), 2333333);
         socket = io(isLoading.store.baseUrl?.slice(0, -5), {
             reconnectionDelayMax: 10000000, // Maximum delay between reconnection attempts (milliseconds)
             reconnectionAttempts: 5,
             query: {
                 id: isLoading.user.id,
             },
-        });
-    }
-
-    const store: any = reactive({
-        chatgroups: [],
-        group_id: 0,
-        messages: {},
-    });
-
-    const message: any = reactive({
-        text: "",
-        chatgroup_id: "",
-        file: "",
-    });
-
-    function clearData() {
-        Object.keys(message).forEach((key) => {
-            message[key] = "";
-        });
-        store.group_id = 0;
-    }
-
-    async function getChatGroups() {
-        const data: any = await apiRequest.get(`chatgroup/getByGroupId/${router.currentRoute.value.params.group_id}`, "group");
-        console.log(data, 'last=========')
-        store.chatgroups = data.data;
-    }
-
-    async function getMessages() {
-        socket.emit('joinChat', router.currentRoute.value.query.chat);
-        const chat_id: number = +(router.currentRoute.value.query.chat || 0)
-        const data: any = await apiRequest.get(`chatgroup/getMessages/${chat_id}`, "chatMessages");
-        store.messages[chat_id] = data.data;
-    }
-
-    async function sendMessage() {
-        message.chatgroup_id = +(router.currentRoute.value.query.chat || 0);
-        const formData = new FormData();
-        for (let i in message) {
-            if (message[i]) {
-                formData.append(i, message[i]);
+            extraHeaders: {
+                Authorization: "Bearer " + localStorage.getItem("token")
             }
-        }
-        message.text = '';
-        const data: any = await apiRequest.post(
-            "chat/create",
-            formData,
-            "sendMessage"
-        );
-        // store.messages[message.chatgroup_id]?.chats.push(data.data)
-        clearData();
-        console.log(data);
-        // socket.emit("getAll/created", {
-        //     chatgroup_id: data.data.chatgroup_id,
-        //     page: 1,
-        // });
-    }
-
-    async function updateGroup() {
-        const formData = new FormData();
-        for (let i in message) {
-            if (message[i]) {
-                formData.append(i, message[i]);
-            }
-        }
-        await apiRequest.put(
-            `group/${store.group_id}`,
-            formData,
-            "creategroup"
-        );
-        isLoading.modal.create = false;
-        isLoading.modal.edit = false;
-        clearData();
-    }
-
-    async function deleteGroup() {
-        await apiRequest.delete_req(
-            `group/${store.group_id}`,
-            "deletegroup"
-        );
-        isLoading.modal.delete = false;
-    }
-
-    if (process.client) {
-        socket.on("receiveMessage", (res: any) => {
-            console.log(res, 'receiveMessage');
-            if (res.chatgroup_id != router.currentRoute.value.query.chat) return;
-            store.messages[+(router.currentRoute.value.query.chat || 0)].chats.push(res)
-            // socket.emit(`getAll/created`, {
-            //     chatgroup_id: res.data.chatgroup_id,
-            //     page: 1,
-            // });
-            console.log(res, "=============================");
-        });
-
-        socket.on("chats", (res: any) => {
-            const chat_id: number = +(router.currentRoute.value.query.chat || 0)
-
-            console.log(res);
-            // store.messages = res.data.records;
-            store.messages[chat_id].chats = res.data.records
-            // let i: any
-            // for (i of res.data.records) {
-            //     console.log(i);
-            // }
-        });
-
-        // socket.on("notifications", (res: any) => {
-        //     console.log(res);
-        //     //   isLoading.store.notifications = res.data;
-        // });
-
-        socket.on("connected", (res: any) => {
-            console.log(res, "connected ====================");
-            isLoading.user.current_role_data.is_online = res.data?.is_online;
-        });
-        socket.on("disconnected", (res: any) => {
-            console.log(res, "disconnected ====================");
         });
     }
 
-    // watch(() => router.currentRoute.value.query.chat, () => {
-    //     console.log('Hi');
+    function connectUser(code: string, name: string) {
+        const isTeacher = useTests.store.test.user_id == isLoading.user.id;
+        socket.emit('join', { code, name: isTeacher ? isLoading.user.name : name, role: isTeacher ? 'teacher' : 'student' });
 
-    //     socket.emit('joinChat', router.currentRoute.value.query.chat);
-    // })
+        socket.on('userList', (list: any) => {
+            console.log(list);
+            store.userlist = list;
+        });
 
-    watch(() => router.currentRoute.value.query.chat, (newChat, oldChat) => {
-        if (oldChat && oldChat !== newChat) {
-            socket.emit('leaveChat', oldChat); // 🔹 Eski chatdan chiqish
-        }
-        if (newChat) {
-            socket.emit('joinChat', newChat); // 🔹 Yangi chatga kirish
-        }
-    });
+        socket.on('testStarted', (test: any) => {
+            store.userScreen = 'question';
+            console.log(test);
+            store.test = test;
+        });
+
+        socket.on('countdown', (data: any) => {
+            store.countdown = data.seconds
+        })
+
+        socket.on('testFinished', (data: any) => {
+            store.userScreen = 'results';
+            store.result = data.result;
+        })
+    }
+
+    function startTest() {
+        console.log('starttest', 22222222);
+
+        socket.emit('startTest', { id: router.currentRoute.value.params?.test_id });
+    }
+
+    async function setAnswer() {
+        apiRequest
+            .post(`chat/set-answer`, {...store.trueAnswer, name: store.username, countdown: store.countdown, code: store.code}, 'answer')
+            .then((res: any) => {
+                // openNotification('success', '', 'Saved successfully');
+                // router.push(`/test/${res?.data?.test?.id}`)
+                console.log(res);
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 
     return {
         store,
-        message,
-        sendMessage,
-        getChatGroups,
-        getMessages,
-        deleteGroup,
-        updateGroup,
-        clearData,
+        connectUser,
+        startTest,
+        setAnswer,
     };
 });
