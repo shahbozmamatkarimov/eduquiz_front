@@ -136,7 +136,7 @@ export const useAuthStore = defineStore("auth", () => {
         getUserFullInfo('login');
         isLoading.store.isLogin = true;
         if (res.data.statusCode == 200) {
-          router.push("/");
+          router.push("/manage");
         }
       })
       .catch((err: any) => {
@@ -241,7 +241,7 @@ export const useAuthStore = defineStore("auth", () => {
       .then((res: any) => {
         if (res.data.message == "User activated successfully") {
           localStorage.setItem("token", res.data?.token);
-          router.push("/");
+          router.push("/manage");
         }
       })
       .catch((err: any) => {
@@ -277,7 +277,7 @@ export const useAuthStore = defineStore("auth", () => {
       .then((res: any) => {
         localStorage.setItem("token", res.data.token);
         if (res.data.statusCode == 200) {
-          router.push("/");
+          router.push("/manage");
         }
       })
       .catch((err: any) => {
