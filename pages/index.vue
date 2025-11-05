@@ -49,7 +49,8 @@
             </div>
             <div class="grid grid-cols-1 gap-4">
                 <button v-for="(variant, index) in useChat.store.test?.variants" @click="selectAnswer(index)"
-                    class="bg-black text-white py-4 rounded-3xl text-lg font-medium hover:bg-gray-800 transition" :class="useChat.store.trueAnswer?.variant == index ? 'bg-green-700 hover:bg-green-500' : ''">
+                    class="bg-black text-white py-4 rounded-3xl text-lg font-medium hover:bg-gray-800 transition"
+                    :class="useChat.store.trueAnswer?.variant == index ? 'bg-green-700 hover:bg-green-500' : ''">
                     {{ variant }}
                 </button>
                 <!-- <button @click="selectAnswer('Andijon')"
@@ -75,14 +76,16 @@
                 <p class="text-lg">Sizning natijangiz {{useChat.store.result.find(user => user.name ==
                     useChat.store.username)?.score}}% to‘g‘ri</p>
                 <p class="text-sm">{{useChat.store.result.find(user => user.name == useChat.store.username)?.countdown
-                    }} soniyada</p>
+                }} soniyada</p>
             </div>
             <div class="space-y-4">
                 <p class="text-center text-lg font-medium">G‘olib:</p>
                 <div v-if="useChat.store.result.find(user => user.score == 100)"
                     class="bg-black text-white rounded-3xl p-6 text-center">
-                    <p class="font-bold">{{ useChat.store.result.find(user => user.score == 100).name }} {{ useChat.store.result.find(user => user.score == 100).score }}% to‘g‘ri</p>
-                    <p class="text-sm">{{ useChat.store.result.find(user => user.score == 100).countdown }} soniyada bajardi</p>
+                    <p class="font-bold">{{useChat.store.result.find(user => user.score == 100).name}} {{
+                        useChat.store.result.find(user => user.score == 100).score }}% to‘g‘ri</p>
+                    <p class="text-sm">{{useChat.store.result.find(user => user.score == 100).countdown}} soniyada
+                        bajardi</p>
                 </div>
                 <div v-else>G'olib topilmadi</div>
             </div>
@@ -138,6 +141,20 @@ const selectAnswer = (variant) => {
     }
     useChat.setAnswer();
 }
+
+onBeforeMount(() => {
+  window.addEventListener("beforeunload", function (event) {
+    // Ogohlantiruv matni
+    const message = "Sahifani tark etmoqchimisiz? Test yopiladi!";
+
+    // Ba'zi brauzerlar uchun
+    event.preventDefault();
+    event.returnValue = message;
+
+    // Foydalanuvchiga alert ko‘rsatiladi (brauzer standart ko‘rinishda chiqaradi)
+    return message;
+  });
+})
 </script>
 
 <style scoped>

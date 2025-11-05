@@ -127,7 +127,7 @@ function handleVariant(index) {
 onBeforeMount(() => {
   window.addEventListener("beforeunload", function (event) {
     // Ogohlantiruv matni
-    const message = "Sahifani tark etmoqchimisiz? Saqlanmagan ma'lumotlar yo'qoladi.";
+    const message = "Sahifani tark etmoqchimisiz? Test yopiladi!";
 
     // Ba'zi brauzerlar uchun
     event.preventDefault();
@@ -138,7 +138,6 @@ onBeforeMount(() => {
   });
 })
 
-// 🧭 Router orqali boshqa route’ga o‘tish uchun
 onBeforeRouteLeave((to, from, next) => {
   if (!confirm("Sahifani tark etmoqchimisiz? Test yopiladi!")) {
     next(false) // bekor qiladi, sahifadan chiqmaydi
@@ -146,7 +145,6 @@ onBeforeRouteLeave((to, from, next) => {
     next()
   }
 })
-
 
 // Eventni tozalash
 onBeforeUnmount(() => {
